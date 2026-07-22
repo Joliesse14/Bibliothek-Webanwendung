@@ -1,6 +1,6 @@
-# Library Management Web Application
+# Library Web Application
 
-A web-based library management system developed as part of a university software engineering project.
+A web-based library management system developed as part of a university Software Engineering project courae at Bremerhaven University of Applied Sciences. the Application allows librarians and members to manage books, users and borrowing processes through a web interface.
 
 ## Table of Contents
 - [Features](#features)
@@ -13,6 +13,7 @@ A web-based library management system developed as part of a university software
 - [Development](#development)
 - [Deployment Notes](#deployment-notes)
 - [Security and Credentials](#security-and-credentials)
+- [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -22,7 +23,8 @@ A web-based library management system developed as part of a university software
 - Borrowing and returning books (loan management)
 - Library member management (CRUD for patrons)
 - Simple receipt/export for borrow transactions
-
+- Employee management
+- Book inventory management
 ## Technology Stack
 - Java Servlets
 - Apache Tomcat
@@ -34,8 +36,9 @@ A web-based library management system developed as part of a university software
 - Git
 - Docker & Docker Compose (recommended)
 - Java (JDK 11+)
-- Maven or the included build scripts
-
+- HAProxy
+- Redis
+- Bash
 ## Quick Start
 
 ### Configuration
@@ -86,12 +89,27 @@ Use the `manager` username and the password stored in your `.my.cnf` (or the con
 - Never commit `.my.cnf` or any file containing plain-text passwords to the repository.
 - Prefer environment variables or Docker secrets for production deployments.
 
+## Project Structure 
+```text
+.
+├── app                                                       # HTML, CSS, JavaScript
+├── bin                                                       # Build and helper scripts
+├── build
+├── hooks
+├── lib
+├── local                                                     # Web Konfiguration
+├── misc
+├── old
+├── poster_portrait                                           # Documentation (Optional) 
+├── Readme.md
+├── src                                                       # Alle Java Servlets 
+├── target                                                    # war Datei
+└── tmp
+```
 ## Contributing
 If you'd like to contribute, open an issue or send a pull request describing your changes and why they're needed.
 
 ## License
-Specify your project license here (e.g., MIT, Apache-2.0). If you don't have one yet, add one to the repository root.
-
+This project was developed for educational purposes.
 ---
 
-If you want, I can: (1) keep only English, (2) provide a bilingual English/German README, or (3) add examples for Docker Compose and a sample `.my.cnf` template. Which would you prefer?
