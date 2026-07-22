@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Registrieren – Bibliothek Damas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">📚 Bibliothek Damas</a>
+  <nav>
+    <a href="register.html" class="active">Registrieren</a>
+    <a href="login.html">Einloggen</a>
+  </nav>
+</header>
+
+<div class="auth-container">
+  <div class="auth-box">
+    <h2>Registrieren</h2>
+    <div class="error-msg" id="error-msg"></div>
+    <div class="success-msg" id="success-msg"></div>
+
+    <form id="registerForm" onsubmit="registrieren(event)">
+      <label>Vorname</label>
+      <input type="text" id="vorname" placeholder="Max" required>
+      <label>Nachname</label>
+      <input type="text" id="nachname" placeholder="Müller" required>
+      <label>Email</label>
+      <input type="email" id="email" placeholder="ihre@email.de" required>
+      <label>Email bestätigen</label>
+      <input type="email" id="email2" placeholder="ihre@email.de" required>
+      <label>Passwort</label>
+      <input type="password" id="passwort" placeholder="Passwort" required>
+      <button type="submit">Registrieren</button>
+    </form>
+
+    <div class="link">Bereits ein Konto? <a href="login.html">Einloggen</a></div>
+  </div>
+</div>
+
+<script>
+const BASE = '/docker-swe2-2026-team-h-java';
+
+async function registrieren(e) {
+  e.preventDefault();
+  const errorBox   = document.getElementById('error-msg');
+  const successBox = document.getElementById('success-msg');
+  errorBox.classList.remove('visible');
+  successBox.classList.remove('visible');
+
+  const vorname  = document.getElementById('vorname').value.trim();
+  const nachname = document.getElementById('nachname').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const email2   = document.getElementById('email2').value.trim();
+  const passwort = document.getElementById('passwort').value.trim();
+
+  if (email !== email2) {
+    errorBox.textContent = 'E-Mail-Adressen stimmen nicht überein.';
+    errorBox.classList.add('visible');
+    return;
+  }
+
+  const res = await fetch(`${BASE}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `vorname=${encodeURIComponent(vorname)}&nachname=${encodeURIComponent(nachname)}&email=${encodeURIComponent(email)}&email2=${encodeURIComponent(email2)}&passwort=${encodeURIComponent(passwort)}`
+  });
+  const text = await res.text();
+
+  if (text.includes('erfolgreich')) {
+    successBox.textContent = text + ' — Sie werden zum Login weitergeleitet...';
+    successBox.classList.add('visible');
+    setTimeout(() => {
+      window.location.href = 'login.html?registered=1';
+    }, 2000);
+  } else {
+    errorBox.textContent = text;
+    errorBox.classList.add('visible');
+  }
+}
+</script>
+</body>
+</html>

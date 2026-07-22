@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bibliothek – Tabs</title>
+<link rel="stylesheet" href="sty.css">
+  </head>
+
+  <body>
+    <div class="tab-bar">
+      <button class="active" data-tab="info">Info</button>
+      <button data-tab="verwaltung">Verwaltung</button>
+    </div>
+
+    <div id="info" class="tab-content active">
+        <h2>📋 Aktuelle Ausleihen</h2>
+      <section id="filterbereich">
+        <select id="filter" onchange="wechselFilter()">
+          <option value="buch">Buch</option>
+          <option value="autor">Autor</option>
+          <option value="mitglied">Mitglied</option>
+          <option value="zeitraum">Zeitraum</option>
+        </select>
+        <div id="eingaben">
+          <input id="eingabe_q" placeholder="" style="display:none">
+          <input id="eingabe_id" placeholder="Mitglied-ID" style="display:none">
+          <input id="eingabe_von" placeholder="Von Monat (1-12)" style="display:none">
+          <input id="eingabe_bis" placeholder="Bis Monat (1-12)" style="display:none">
+         <button onclick="laden()" id="klick">Anzeigen</button>
+        </div>
+      </section>
+        <section id="ergebnisbereich">
+ <table border="1">
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</section>
+    </div>
+          <div id="verwaltung" class="tab-content">
+            <div id="aktionsbereich" style="display:none;">
+              <div class="card">
+                <h2>📘 Anschaffen</h2>
+                <input id="isbn" placeholder="ISBN">
+                <input id="standortId" placeholder="Standort-ID">
+                <input id="anzahl" type="number" min="1" placeholder="Anzahl">
+                <input id="lieferdatum" type="date" placeholder="Erwartetes Lieferdatum">
+                <button onclick="anschaffen()">Anschaffen</button>  
+ <p id="rueckmeldung1"></p>
+              </div>
+            <div class="card">
+              <h2>🗑️ Aussondern</h2>
+              <input id="exemplarId" placeholder="Exemplar ID">
+              <button onclick="aussondern()">Aussondern</button>  
+ <p id="rueckmeldung2"></p>
+            </div>
+          </div>
+          </div>
+<footer>
+    © 2026 Stadtbibliothek Soweto – Alle Rechte vorbehalten
+</footer>
+        </section>
+          <script src="anschaffen.js"> </script>
+            </body>
+</html>
+

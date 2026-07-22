@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n}{tageUeberfaellig}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ChronoUnit}\PYG{p}{.}\PYG{n+na}{DAYS}\PYG{p}{.}\PYG{n+na}{between}\PYG{p}{(}\PYG{n}{faellig}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{heute}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{gebuehr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{tageUeberfaellig}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{tageUeberfaellig}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.10}\PYG{+w}{ }\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{zustand}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{GUT}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{PreparedStatement}\PYG{+w}{ }\PYG{n}{psSperr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{con}\PYG{p}{.}\PYG{n+na}{prepareStatement}\PYG{p}{(}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{UPDATE mitglied SET gesperrt=TRUE, sperr\PYGZus{}grund=? WHERE id=?}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{psSperr}\PYG{p}{.}\PYG{n+na}{setString}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Buch }\PYG{l+s}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{zustand}\PYG{p}{.}\PYG{n+na}{toLowerCase}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{ zurueckgegeben}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{psSperr}\PYG{p}{.}\PYG{n+na}{setLong}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mitglied\PYGZus{}id}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{psSperr}\PYG{p}{.}\PYG{n+na}{executeUpdate}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

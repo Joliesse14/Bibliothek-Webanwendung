@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Anschaffungen – Bibliothek Damas</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<header>
+  <h1>📚 Bibliothek Damas — Anschaffungen</h1>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <a href="admin.html" style="color:#a0aec0;font-size:0.85rem;text-decoration:none">Admin</a>
+    <a href="logout" style="color:#a0aec0;font-size:0.85rem;text-decoration:none">Abmelden</a>
+  </div>
+</header>
+<nav>
+  <button class="active" onclick="show('buch', this)">Buch suchen</button>
+  <button onclick="show('autor', this)">Autor suchen</button>
+  <button onclick="show('planen', this)">Anschaffung planen</button>
+</nav>
+<main>
+  <!-- BUCH -->
+  <div id="buch" class="section active" style="display:block">
+    <h2>Buch suchen</h2>
+    <div class="card">
+      <label>Titel suchen</label>
+      <div style="display:flex;gap:0.5rem">
+        <input type="text" id="buch-suche" placeholder="z.B. Java">
+        <button class="btn btn-primary" onclick="sucheBuch()">Suchen</button>
+      </div>
+      <div id="buch-result" style="margin-top:1rem"></div>
+    </div>
+  </div>
+
+  <!-- AUTOR -->
+  <div id="autor" class="section">
+    <h2>Autor suchen</h2>
+    <div class="card">
+      <label>Autor suchen</label>
+      <div style="display:flex;gap:0.5rem">
+        <input type="text" id="autor-suche" placeholder="z.B. Müller">
+        <button class="btn btn-primary" onclick="sucheAutor()">Suchen</button>
+      </div>
+      <div id="autor-result" style="margin-top:1rem"></div>
+    </div>
+  </div>
+
+  <!-- ANSCHAFFUNG PLANEN -->
+  <div id="planen" class="section">
+    <h2>Anschaffung planen</h2>
+    <div class="card">
+      <label>ISBN</label>
+      <input type="text" id="plan-isbn" placeholder="z.B. 9783836245456">
+      <label>Anzahl</label>
+      <input type="number" id="plan-anzahl" placeholder="z.B. 3" min="1">
+      <label>Standort ID</label>
+      <input type="number" id="plan-standort" placeholder="z.B. 1">
+      <label>Lieferdatum</label>
+      <input type="date" id="plan-datum">
+      <button class="btn btn-primary" style="margin-top:1rem" onclick="anschaffungPlanen()">Anschaffung speichern</button>
+      <div id="plan-result" style="margin-top:1rem"></div>
+    </div>
+  </div>
+</main>
+<script>
+const BASE = '/docker-swe2-2026-team-h-java';
+
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).style.display = 'block';
+  btn.classList.add('active');
+}
+
+async function sucheBuch() {
+  const q = document.getElementById('buch-suche').value.trim();
+  const res = await fetch(`${BASE}/anschaffung?filter=buch&q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+  const box = document.getElementById('buch-result');
+  if (data.length === 0) {
+    box.innerHTML = '<p style="color:#666">Keine Bücher gefunden.</p>';
+    return;
+  }
+  box.innerHTML = `
+    <table>
+      <thead><tr><th>Titel</th><th>ISBN</th><th>Standort</th><th>Exemplare</th><th>Ausgeliehen</th><th>Verfügbar</th></tr></thead>
+      <tbody>
+        ${data.map(b => `<tr>
+          <td>${b.titel}</td>
+          <td>${b.isbn}</td>
+          <td>${b.standort}</td>
+          <td>${b.exemplare}</td>
+          <td>${b.ausgeliehen}</td>
+          <td>${b.verfuegbar}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function sucheAutor() {
+  const q = document.getElementById('autor-suche').value.trim();
+  const res = await fetch(`${BASE}/anschaffung?filter=autor&q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+  const box = document.getElementById('autor-result');
+  if (data.length === 0) {
+    box.innerHTML = '<p style="color:#666">Keine Autoren gefunden.</p>';
+    return;
+  }
+  box.innerHTML = `
+    <table>
+      <thead><tr><th>Autor</th><th>Titel</th><th>Bücher</th><th>Ausleihen</th></tr></thead>
+      <tbody>
+        ${data.map(a => `<tr>
+          <td>${a.autor}</td>
+          <td>${a.titel}</td>
+          <td>${a.buecher}</td>
+          <td>${a.ausleihen}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function anschaffungPlanen() {
+  const isbn      = document.getElementById('plan-isbn').value.trim();
+  const anzahl    = document.getElementById('plan-anzahl').value.trim();
+  const standort  = document.getElementById('plan-standort').value.trim();
+  const datum     = document.getElementById('plan-datum').value.trim();
+  const box       = document.getElementById('plan-result');
+
+  if (!isbn || !anzahl || !standort || !datum) {
+    box.textContent = ' Bitte alle Felder ausfüllen!';
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.append('aktion', 'anschaffen');
+  params.append('isbn', isbn);
+  params.append('anzahl', anzahl);
+  params.append('standortId', standort);
+  params.append('lieferdatum', datum);
+
+  const res = await fetch(`${BASE}/anschaffen?${params.toString()}`);
+  const data = await res.json();
+
+  if (data.error) {
+    box.textContent = data.error;
+  } else {
+    box.textContent = " Anschaffung erfolgreich geplant!";
+    ladeListe();
+  }
+}
+async function ladeListe() {
+  const res = await fetch(`${BASE}/anschaffen?aktion=liste`);
+  const data = await res.json();
+  const box = document.getElementById("plan-result");
+  if (data.length === 0) {
+    return;
+  }
+  box.innerHTML += `
+    <h3 style="margin-top:1rem">Geplante Anschaffungen</h3>
+    <table>
+      <thead><tr><th>Titel</th><th>ISBN</th><th>Standort</th><th>Anzahl</th><th>Status</th><th>Lieferdatum</th></tr></thead>
+      <tbody>
+        ${data.map(a => `<tr>
+          <td>${a.titel}</td>
+          <td>${a.isbn}</td>
+          <td>${a.standort}</td>
+          <td>${a.anzahl}</td>
+          <td>${a.status}</td>
+          <td>${a.lieferdatum}</td>
+        </tr>`).join("")}
+      </tbody>
+    </table>`;
+}
+</script>
+</body>
+</html>

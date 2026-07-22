@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventur - Bibliothek Damas</title>
+<link rel="stylesheet" href="css/inventur.css">
+</head>
+<body>
+<div style="padding:1rem"><a href="admin.html" style="background:#2c3e50;color:white;padding:8px 16px;border-radius:8px;text-decoration:none;"> zurück</a></div>
+<main>
+  <h1>Inventur</h1>
+  <div class="standort-name" id="ueberschrift">Standort auswählen, um zu starten</div>
+
+  <!-- Schritt 1: Standort waehlen und Inventur starten -->
+  <section id="start-bereich">
+    <h2>1. Inventur starten</h2>
+    <label for="standort">Standort</label>
+    <select id="standort">
+      <option value="1">Bremen</option>
+      <option value="2">Bremerhaven</option>
+      <option value="3">Wilhelmshaven</option>
+    </select>
+    <button id="btn-start">Inventur beginnen</button>
+    <div class="status" id="start-status"></div>
+  </section>
+
+  <!-- Schritt 2: Exemplare scannen (erst sichtbar nach Start) -->
+  <section id="scan-bereich" class="hidden">
+    <h2>2. Exemplare erfassen</h2>
+    <label for="exemplar-id">Exemplar-ID</label>
+    <input type="number" id="exemplar-id" placeholder="z. B. 1042">
+
+    <label for="isbn">ISBN</label>
+    <input type="text" id="isbn" placeholder="z. B. 9783960090674" maxlength="13">
+
+    <label for="zustand">Zustand</label>
+    <select id="zustand">
+      <option value="GUT">Gut</option>
+      <option value="BESCHAEDIGT">Beschädigt</option>
+      <option value="STARK_BESCHAEDIGT">Stark beschädigt</option>
+    </select>
+
+    <button id="btn-scan">Exemplar erfassen</button>
+    <div class="status" id="scan-status"></div>
+    <div class="zaehler" id="scan-zaehler">0 Exemplare erfasst</div>
+    <ul id="scan-liste"></ul>
+  </section>
+
+  <!-- Schritt 3: Abschliessen (erst sichtbar nach Start) -->
+  <section id="abschluss-bereich" class="hidden">
+    <h2>3. Inventur abschließen</h2>
+    <p style="font-size:0.9rem; color:#666; margin-top:0;">
+      Berechnet über- und unterzählige Exemplare für diesen Standort.
+      Danach kann diese Inventur nicht mehr geändert werden.
+    </p>
+    <button class="secondary" id="btn-abschliessen">Inventur abschließen</button>
+    <div class="status" id="abschluss-status"></div>
+    <div id="ergebnis-bereich" class="hidden">
+      <div class="ergebnis" id="ergebnis-text"></div>
+    </div>
+  </section>
+</main>
+ <script src="script/inventur.js"></script>
+</body>
+</html>

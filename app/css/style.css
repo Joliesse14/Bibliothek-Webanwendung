@@ -1,0 +1,188 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f5f6fa; color: #1a1a2e; }
+
+/* ── HEADER ─────────────────────────────────────────── */
+.site-header {
+  background: #1a1a2e;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.site-header .logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: white;
+}
+.site-header nav a {
+  color: #a0aec0;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.site-header nav a:hover { color: white; }
+.site-header nav a.active {
+  color: white;
+  border-bottom: 2px solid #4ade80;
+  padding-bottom: 2px;
+}
+
+/* ── AUTH BOX (Login & Register) ────────────────────── */
+.auth-container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.auth-box {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.auth-box h2 {
+  text-align: center;
+  color: #1a1a2e;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.auth-box label {
+  display: block;
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin-bottom: 0.3rem;
+  margin-top: 0.8rem;
+  font-weight: 500;
+}
+.auth-box input[type="email"],
+.auth-box input[type="password"],
+.auth-box input[type="text"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.auth-box input:focus {
+  outline: none;
+  border-color: #1a1a2e;
+}
+.auth-box button[type="submit"] {
+  width: 100%;
+  padding: 0.8rem;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background 0.2s;
+}
+.auth-box button[type="submit"]:hover { background: #16213e; }
+.auth-box .link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #718096;
+}
+.auth-box .link a {
+  color: #1a1a2e;
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-box .link a:hover { text-decoration: underline; }
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.checkbox-container input[type="checkbox"] { width: auto; }
+.checkbox-container label { margin: 0; font-weight: normal; }
+
+/* ── MELDUNGEN ───────────────────────────────────────── */
+.error-msg {
+  display: none;
+  background: #fed7d7;
+  border: 1px solid #fc8181;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  color: #c53030;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.error-msg.visible { display: block; }
+.success-msg {
+  display: none;
+  background: #c6f6d5;
+  border: 1px solid #9ae6b4;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  color: #276749;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.success-msg.visible { display: block; }
+
+/* ── STARTSEITE BUCHSUCHE ────────────────────────────── */
+.search-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+}
+.search-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.search-hero p { color: #a0aec0; margin-bottom: 1.5rem; }
+.search-row {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.search-row input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.search-row select {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.search-row button {
+  padding: 0.8rem 1.5rem;
+  background: #4ade80;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.search-row button:hover { background: #22c55e; }
+.results { padding: 2rem; max-width: 1000px; margin: 0 auto; }
+.results table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.results th {
+  text-align: left;
+  padding: 0.7rem 1rem;
+  background: #f7fafc;
+  border-bottom: 2px solid #e2e8f0;
+  color: #4a5568;
+}
+.results td { padding: 0.7rem 1rem; border-bottom: 1px solid #f0f0f0; }
+.results tr:hover td { background: #fafafa; }

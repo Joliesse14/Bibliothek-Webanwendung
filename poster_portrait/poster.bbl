@@ -1,0 +1,129 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{w3school}{online}{}{}
+      \list{language}{1}{%
+        {en}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{title}{JavaScript , Json, css, Html}
+      \verb{urlraw}
+      \verb https://www.w3schools.com/js/js_json.asp
+      \endverb
+      \verb{url}
+      \verb https://www.w3schools.com/js/js_json.asp
+      \endverb
+    \endentry
+    \entry{JavaDoc}{online}{}{}
+      \list{language}{1}{%
+        {en}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{title}{Java.*}
+      \verb{urlraw}
+      \verb https://docs.oracle.com/en/java/javase/25/docs/api/index.html
+      \endverb
+      \verb{url}
+      \verb https://docs.oracle.com/en/java/javase/25/docs/api/index.html
+      \endverb
+    \endentry
+    \entry{pattern2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d4c45142cd81aadedc0a3e913476df71}{%
+           family={Huber},
+           familyi={H\bibinitperiod},
+           given={Sascha},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \strng{namehash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{fullhash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{fullhashraw}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{bibnamehash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{authorbibnamehash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{authornamehash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{authorfullhash}{d4c45142cd81aadedc0a3e913476df71}
+      \strng{authorfullhashraw}{d4c45142cd81aadedc0a3e913476df71}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{04}
+      \field{title}{Design Patterns in der Softwareentwicklung: Die wichtigsten Muster erklärt}
+      \field{urlday}{1}
+      \field{urlmonth}{7}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://sascha-huber.com/allgemein/design-patterns-erklaert/
+      \endverb
+      \verb{url}
+      \verb https://sascha-huber.com/allgemein/design-patterns-erklaert/
+      \endverb
+    \endentry
+    \entry{Balzert1955}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=bde2e0f570b4c82b7700084af7b7166d}{%
+           family={Balzert},
+           familyi={B\bibinitperiod},
+           given={Heide},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \strng{namehash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{fullhash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{fullhashraw}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{bibnamehash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{authorbibnamehash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{authornamehash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{authorfullhash}{bde2e0f570b4c82b7700084af7b7166d}
+      \strng{authorfullhashraw}{bde2e0f570b4c82b7700084af7b7166d}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Objektmodellierung - Analysemuster und Beispielanwendungen}
+      \field{urlday}{1}
+      \field{urlmonth}{7}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \field{pages}{7\bibrangedash 8}
+      \range{pages}{2}
+      \verb{urlraw}
+      \verb https://www.entrap.de/study/5.Semester_WS0405/se/material/SE/Microsoft%20PowerPoint%20-%20le05.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.entrap.de/study/5.Semester_WS0405/se/material/SE/Microsoft%20PowerPoint%20-%20le05.pdf
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

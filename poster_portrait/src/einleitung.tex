@@ -1,0 +1,15 @@
+\section{Einleitung und Beschreibung des Projekts}
+
+\subsection{Einleitung}
+
+In „Software Engineering II“ haben wir auf den bisher erlernten Grundlagen aufgebaut und unser Verständnis für zentrale Aspekte der Softwareentwicklung vertieft – von der Entwicklungsumgebung über Nebenläufigkeit und Datenbankanbindung bis hin zur systematischen Problemfindung. Ein besonderer Fokus lag auf der Vertiefung objektorientierter Konzepte: Durch die intensive Arbeit mit dem Jakarta-Servlet-API, Vererbung und Design Patterns haben wir gelernt, wiederverwendbaren und gut strukturierten Code zu schreiben, der uns zugleich hilft, Probleme systematisch zu analysieren und im Team zu lösen.
+
+Im Folgenden präsentieren wir die Ergebnisse der Semesteraufgabe: eine Bibliotheksanwendung, die es Mitarbeitern ermöglicht, sich anzumelden und zwischen den Anwendungsfällen Ausleihe und Rückgabe zu wählen. Über die geforderten Kernfunktionen hinaus haben wir eine eigenständige Registrierung für Mitglieder ergänzt, die eng mit dem bestehenden Login-System verzahnt ist, sodass neu registrierte Mitglieder unmittelbar im System anmelden und ihre Ausleihen einsehen können.
+
+\subsection{Beschreibung des Projekts}
+
+Den Kern der Anwendung bilden die beiden geforderten Anwendungsfälle Ausleihe und Rückgabe. Mitarbeiter geben dabei zunächst den Ausweiscode eines Mitglieds ein, gefolgt von einer beliebigen Anzahl an Buchexemplar-Codes, die per Tastatur eingegeben werden, um einen Barcode-Scanner zu simulieren. Erst nach ausdrücklicher Bestätigung der vollständigen Erfassung wird die Ausleihe beziehungsweise Rückgabe tatsächlich in der Datenbank festgehalten. Bestätigungsdokumente werden dabei nicht unmittelbar geschrieben, sondern als eigenständiges Objekt gekapselt und in eine Redis-Warteschlange eingereiht; ein separater, nebenläufig laufender Prozess entnimmt diese Aufträge und schreibt die entsprechenden Quittungen als Textdateien.
+
+Über die Kernfunktionen hinaus haben wir die Anwendung um mehrere Module erweitert, die reale Bibliotheksprozesse abbilden: Bei der Inventur erfassen Mitarbeiter Buchexemplare je Standort, wobei das System automatisch über- sowie unterzählige Bestände ermittelt; ein Mitglieder-Dashboard zeigt die eigene Ausleih-Historie, während ein administrativer Bereich Bestand und Anschaffungen verwaltet. Zur Sicherung der Codequalität haben wir zudem einen Git-Hook eingerichtet, der falsch formatierten Java-Code bereits vor dem Push zurückweist, und den vollständigen Ablauf von Anmeldung über eine Aktion bis zur Abmeldung als Grundlage für einen nebenläufigen Lasttest genutzt, dessen Ergebnisse wir visualisiert und ausgewertet haben.
+Für die Entwicklung der Benutzeroberfläche wurden HTML, CSS und JavaScript verwendet \autocite{w3school}.
+ \autocite{JavaDoc}.

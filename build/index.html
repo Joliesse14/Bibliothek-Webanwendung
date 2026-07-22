@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <title>Bibliothek</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+
+    <header class="site-header">
+      <a href="index.html" class="logo">📚 Bibliothek Damas</a>
+      <nav id="header-nav">
+        <a href="register.html">Registrieren</a>
+        <a href="login.html">Einloggen</a>
+         <a href="leaflet.html">Standort</a>
+      </nav>
+    </header>
+
+    <div class="search-hero">
+      <h1>Bücher entdecken</h1>
+      <p> </p>
+      <div class="search-row">
+        <input type="text" id="suche" placeholder="Titel oder ISBN...">
+        <select id="standort">
+          <option value="">Alle Standorte</option>
+          <option value="Bremen">Bremen</option>
+          <option value="Bremerhaven">Bremerhaven</option>
+          <option value="Wilhelmshaven">Wilhelmshaven</option>
+        </select>
+        <button onclick="suchen()">Suchen</button>
+      </div>
+    </div>
+
+    <div class="results">
+      <table id="ergebnis-tabelle" style="display:none">
+        <thead>
+          <tr><th>Titel</th><th>Verlag</th><th>Standort</th><th>Regal</th><th>Verfügbar</th></tr>
+        </thead>
+        <tbody id="ergebnis-body"></tbody>
+      </table>
+      <p id="ergebnis-leer" style="color:#a0aec0;display:none">Keine Ergebnisse gefunden.</p>
+    </div>
+
+    <script>
+      const BASE = '/docker-swe2-2026-team-h-java';
+
+async function pruefSession() {
+  const res  = await fetch(`${BASE}/session-info`);
+  const data = await res.json();
+  const nav  = document.getElementById('header-nav');
+  if (data.loggedIn && data.rolle === 'MITGLIED') {
+    nav.innerHTML = `
+      <a href="${BASE}/dashboard-mitglied">Mein Konto</a>
+      <a href="leaflet.html">Standort</a>
+      <a href="${BASE}/logout">Ausloggen</a>
+    `;
+  } else if (data.loggedIn && data.rolle === 'MITARBEITER') {
+    nav.innerHTML = `
+      <a href="mitarbeiter.html">Mitarbeiter-Bereich</a>
+      <a href="leaflet.html">Standort</a>
+      <a href="${BASE}/logout">Ausloggen</a>
+    `;
+  } else if (data.loggedIn && data.rolle === 'ADMIN') {
+    nav.innerHTML = `
+      <a href="admin.html">Admin-Bereich</a>
+      <a href="leaflet.html">Standort</a>
+      <a href="${BASE}/logout">Ausloggen</a>
+    `;
+  }
+}
+
+      async function suchen() {
+        const q = document.getElementById('suche').value.trim();
+        const s = document.getElementById('standort').value;
+        const res = await fetch(`${BASE}/buecher?q=${encodeURIComponent(q)}&standort=${encodeURIComponent(s)}`);
+        const data = await res.json();
+        const tbody = document.getElementById('ergebnis-body');
+        const table = document.getElementById('ergebnis-tabelle');
+        const leer  = document.getElementById('ergebnis-leer');
+
+        if (!data.length) {
+          table.style.display = 'none';
+          leer.style.display = 'block';
+          return;
+        }
+        leer.style.display = 'none';
+        table.style.display = 'table';
+        tbody.innerHTML = data.map(b => `
+    <tr>
+      <td>${b.titel}</td>
+      <td>${b.verlag}</td>
+      <td>${b.standorte || '–'}</td>
+     <td>${b.regale ? b.regale.replace(/,/g, ', ') : '–'}</td>
+          <td>${b.exemplare - b.ausgeliehen > 0 ?
+              '<span style="color:#38a169">Verfügbar</span>' :
+              '<span style="color:#e53e3e">Ausgeliehen</span>'}</td>
+    </tr>
+  `).join('');
+      }
+
+      pruefSession();
+    </script>
+  </body>
+</html>

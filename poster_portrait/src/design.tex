@@ -1,0 +1,27 @@
+\section{Design pattern}
+Design Patterns bezeichen Linien von Code, die immer wieder genutzt werden, um gewisse Lösungen für auftretende Probleme oder Herausforderungen in der Softwareentwicklung zu gewährleisten. Durch den Einsatz von Design Patterns wird der Code übersichtlicher, besser wartbar und leichter erweiterbar.
+  In unserer Anwendung haben wir das Pattern \textbf{Singelton} umgesetzt, das zur Erzeugungsmuster-Kategorie gehört.\autocite{pattern2026}
+  "Das Singleton Pattern stellt sicher, dass von einer Klasse nur eine einzige Instanz existiert und bietet einen globalen Zugriffspunkt auf diese Instanz"\; beschreibt (\citeauthor{pattern2026}, \citeyear{pattern2026}).   
+  \begin{minted}{java}
+    public class DesignServlet extends HttpServlet{
+      private DataSource ds;
+
+      @Override
+      public void init() throws ServletException {
+        try {
+          Context ctx = new InitialContext();
+          ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/mariadb");
+        } catch (Exception e) {
+          throw new ServletException(e);
+        }
+      }
+      @Override
+      public void doGet(HttpServletRequest req, Http
+      ServletResponse res)
+      throws ServletException, IOException {
+      connection con = ds.getConnection();
+    }
+  }
+  \end{minted}
+Datasource wird in unserer Webanwendung zentral verwendet, auf den alle Servlet zugreifen können. Somit werden Ressourcen gespart, da bei jeder Anfrage nicht mehr direkt neue Datenbankverbindungen aufgemacht werden müssen.
+

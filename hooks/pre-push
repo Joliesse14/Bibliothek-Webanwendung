@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Pruefe Java-Formatierung..."
+
+ROOT="$(git rev-parse --show-toplevel)"
+CHECKSTYLE="$ROOT/brotundbutter-sessions-redis-mariadb/hooks/checkstyle.jar"
+CONFIG="$ROOT/brotundbutter-sessions-redis-mariadb/hooks/checkstyle.xml"
+FEHLER=0
+
+for file in $(find "$ROOT/brotundbutter-sessions-redis-mariadb/src" -name "*.java"); do
+  result=$(java -jar "$CHECKSTYLE" -c "$CONFIG" "$file" 2>&1)
+  if echo "$result" | grep -q "ERROR"; then
+    echo "Formatierungsfehler in: $file"
+    FEHLER=1
+  fi
+done
+
+if [ $FEHLER -eq 1 ]; then
+  echo ""
+  echo "Push abgebrochen. Bitte Formatierungsfehler beheben."
+  exit 1
+fi
+
+echo "Formatierung ok - Push wird fortgesetzt"
+exit 0

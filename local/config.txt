@@ -1,0 +1,10 @@
+user=swe2-2026-team-h
+baseurl=https://informatik.hs-bremerhaven.de
+webapp=docker-swe2-2026-team-h-java
+manager=docker-swe2-2026-team-h-manager
+dbserver=mysql-server
+dbname=swe2-2026-team-h_db
+dbpassword=Undb9j6eSlrXqZNchGzM
+dbuser=swe2-2026-team-h
+redisserver=localhost
+redispassword=Undb9j6eSlrXqZNchGzM

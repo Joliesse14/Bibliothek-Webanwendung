@@ -1,0 +1,20 @@
+\section{GitHook}
+
+Ein pre-push-Hook prüft vor jedem git push automatisch alle Java-Dateien im Repository mit Checkstyle. Enthält eine Datei Formatierungsfehler, wird der Push abgebrochen.
+
+\begin{minted}{java}[h]
+for file in $(find "$ROOT/brotundbutter-sessions-redis-mariadb/src" -name "*.java"); do
+  result=$(java -jar "$CHECKSTYLE" -c "$CONFIG" "$file" 2>&1)
+  if echo "$result" | grep -q "ERROR"; then
+    echo "Formatierungsfehler in: $file"
+    FEHLER=1
+  fi
+done
+
+if [ $FEHLER -eq 1 ]; then
+  echo ""
+  echo "Push abgebrochen. Bitte Formatierungsfehler beheben."
+  exit 1
+fi
+\end{minted}
+

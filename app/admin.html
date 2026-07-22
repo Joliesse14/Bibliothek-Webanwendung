@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <title>Admin – Bibliothek</title>
+    <link rel="stylesheet" href="css/admin.css">
+  </head>
+  <body>
+    <header>
+      <h1>📚 Bibliothek Damas — Admin <span>Erweiterte Rechte</span></h1>
+       <div style="display:flex;align-items:center;gap:1rem">
+    <a href="mitarbeiter.html" style="color:#a0aec0;font-size:0.85rem;text-decoration:none">Mitarbeiter</a>
+    <a href="index.html" style="color:#a0aec0;font-size:0.85rem;text-decoration:none">Startseite</a>
+    <a href="logout" style="color:#a0aec0;font-size:0.85rem;text-decoration:none">Abmelden</a>
+  </div>
+    </header>
+    <nav>
+      <button class="active" onclick="show('uebersicht', this)">Übersicht</button>
+      <button onclick="show('buecher', this)">Bücher</button>
+      <button onclick="show('autoren', this)">Autoren</button>
+      <button onclick="show('mitglieder', this)">Mitglieder</button>
+      <button onclick="show('zeitraum', this)">Zeitraum</button>
+      <button onclick="window.location.href='anschaffung'">Anschaffungen</button>
+      <button onclick="window.location.href='inventur.html'">Inventur</button>
+    </nav>
+    <main>
+
+      <!-- ÜBERSICHT -->
+      <div id="uebersicht" class="section active">
+        <h2>Kennzahlen</h2>
+        <div class="stats-grid">
+          <div class="stat"><div class="zahl" id="stat-buecher">–</div><div class="label">Bücher im Bestand</div></div>
+          <div class="stat"><div class="zahl" id="stat-ausleihen">–</div><div class="label">Aktive Ausleihen</div></div>
+          <div class="stat"><div class="zahl" id="stat-ueberfaellig">–</div><div class="label">Überfällig</div></div>
+          <div class="stat"><div class="zahl" id="stat-gesperrt">–</div><div class="label">Gesperrte Mitglieder</div></div>
+        </div>
+        <h2>Meistausgeliehene Bücher</h2>
+        <div class="card">
+          <table>
+            <thead><tr><th>Titel</th><th>Autor</th><th>Ausleihen</th></tr></thead>
+            <tbody id="top-buecher"><tr><td colspan="3" style="color:#a0aec0">Wird geladen…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BÜCHER -->
+      <div id="buecher" class="section">
+        <h2>Buchsuche</h2>
+        <div class="card">
+          <div class="filter-row">
+            <div>
+              <label>ISBN oder Titel</label>
+              <input type="text" id="buch-suche" placeholder="978… oder Titel">
+            </div>
+            <div>
+              <label>Standort</label>
+              <select id="buch-standort">
+                <option value="">Alle</option>
+                <option>Bremen</option>
+                <option>Bremerhaven</option>
+                <option>Wilhelmshaven</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="buchSuchen()">Suchen</button>
+          </div>
+          <table>
+            <thead><tr><th>ISBN</th><th>Titel</th><th>Verlag</th><th>Exemplare</th><th>Ausgeliehen</th><th>Aktion</th></tr></thead>
+            <tbody id="buch-tabelle"><tr><td colspan="6" style="color:#a0aec0">Suche starten…</td></tr></tbody>
+          </table>
+        </div>
+        <h2>Buch hinzufügen</h2>
+        <div class="card">
+          <label>ISBN (13-stellig)</label>
+          <input type="text" id="neu-isbn" placeholder="9783000000000" maxlength="13">
+          <label>Titel</label>
+          <input type="text" id="neu-titel" placeholder="Titel des Buches">
+          <label>Auflage</label>
+          <input type="number" id="neu-auflage" placeholder="1" min="1">
+          <label>Verlag</label>
+          <input type="text" id="neu-verlag" placeholder="Springer">
+          <label>Autoren</label>
+          <div id="autoren-eingabe">
+            <div class="autor-row" style="display:flex;gap:0.5rem;margin-bottom:0.5rem">
+              <input type="text" class="autor-input" placeholder="Vorname Nachname" style="flex:1">
+              <button class="btn btn-primary" style="margin-top:0" onclick="autorHinzufuegen()">+</button>
+            </div>
+          </div>
+          <div id="autoren-liste" style="margin-bottom:0.5rem"></div>
+          <label>Standort</label>
+          <select id="neu-standort">
+            <option value="1">Bremen</option>
+            <option value="2">Bremerhaven</option>
+            <option value="3">Wilhelmshaven</option>
+          </select>
+          <label>Regalnummer</label>
+          <input type="text" id="neu-regal" placeholder="z.B. 01" maxlength="2">
+          <label>Anzahl Exemplare</label>
+          <input type="number" id="neu-anzahl" placeholder="1" min="1" value="1">
+          <button class="btn btn-primary" onclick="buchHinzufuegen()">Buch speichern</button>
+          <div id="neu-result" class="msg"></div>
+        </div>
+      </div>
+
+      <!-- AUTOREN -->
+      <div id="autoren" class="section">
+        <h2>Autorenstatistik</h2>
+        <div class="card">
+          <table>
+            <thead><tr><th>Autor</th><th>Bücher</th><th>Ausleihen gesamt</th></tr></thead>
+            <tbody id="autoren-tabelle"><tr><td colspan="3" style="color:#a0aec0">Wird geladen…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MITGLIEDER -->
+      <div id="mitglieder" class="section">
+        <h2>Mitgliederübersicht</h2>
+        <div class="card">
+          <div class="filter-row">
+            <div>
+              <label>Name oder Ausweis</label>
+              <input type="text" id="mg-suche" placeholder="Suchen…">
+            </div>
+            <div>
+              <label>Status</label>
+              <select id="mg-status">
+                <option value="">Alle</option>
+                <option value="aktiv">Aktiv</option>
+                <option value="gesperrt">Gesperrt</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="mitgliederLaden()">Suchen</button>
+          </div>
+          <table>
+            <thead><tr><th>Name</th><th>Ausweis</th><th>Ausleihen</th><th>Gebühren offen</th><th>Status</th></tr></thead>
+            <tbody id="mg-tabelle"><tr><td colspan="5" style="color:#a0aec0">Wird geladen…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ZEITRAUM -->
+      <div id="zeitraum" class="section">
+        <h2>Auswertung nach Zeitraum</h2>
+        <div class="card">
+          <div class="filter-row">
+            <div><label>Von</label><input type="date" id="von"></div>
+            <div><label>Bis</label><input type="date" id="bis"></div>
+            <button class="btn btn-primary" onclick="zeitraumLaden()">Auswerten</button>
+          </div>
+          <table>
+            <thead><tr><th>Zeitraum</th><th>Ausleihen</th><th>Rückgaben</th><th>Mahngebühren</th></tr></thead>
+            <tbody id="zeitraum-tabelle"><tr><td colspan="4" style="color:#a0aec0">Zeitraum wählen…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+    <script src="script/admin.js"></script>
+  </body>
+</html>

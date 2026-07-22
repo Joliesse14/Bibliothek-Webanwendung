@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Einloggen – Bibliothek Damas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">📚 Bibliothek Damas</a>
+  <nav>
+    <a href="register.html">Registrieren</a>
+    <a href="login.html" class="active">Einloggen</a>
+  </nav>
+</header>
+
+<div class="auth-container">
+  <div class="auth-box">
+    <h2>Einloggen</h2>
+    <div class="error-msg" id="error-msg"></div>
+
+    <form id="loginForm" action="mitglied-login" method="get">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="ihre@email.de" required>
+      <label>Passwort</label>
+      <input type="password" name="passwd" placeholder="Passwort" required>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="mitarbeiterCheck" onclick="toggleMitarbeiter()">
+        <label for="mitarbeiterCheck">Als Mitarbeiter einloggen</label>
+      </div>
+
+      <div id="idFeld" style="display:none">
+        <label>Mitarbeiter ID</label>
+        <input type="text" name="id" placeholder="z.B. MA-001">
+      </div>
+
+      <button type="submit">Einloggen</button>
+    </form>
+
+    <div class="link">Noch kein Konto? <a href="register.html">Registrieren</a></div>
+  </div>
+</div>
+
+<script>
+function toggleMitarbeiter() {
+  var checkbox = document.getElementById('mitarbeiterCheck');
+  var idFeld   = document.getElementById('idFeld');
+  var form     = document.getElementById('loginForm');
+  if (checkbox.checked) {
+    idFeld.style.display = 'block';
+    form.action = 'mitarbeiter-login';
+  } else {
+    idFeld.style.display = 'none';
+    form.action = 'mitglied-login';
+  }
+}
+
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  const box = document.getElementById('error-msg');
+  if (params.get('error') === '1') {
+    box.textContent = 'Falsche E-Mail, Passwort oder Mitarbeiter-ID.';
+    box.classList.add('visible');
+  }
+  if (params.get('registered') === '1') {
+    box.style.background = '#c6f6d5';
+    box.style.border = '1px solid #9ae6b4';
+    box.style.color = '#276749';
+    box.textContent = 'Registrierung erfolgreich! Bitte einloggen.';
+    box.classList.add('visible');
+  }
+};
+</script>
+</body>
+</html>

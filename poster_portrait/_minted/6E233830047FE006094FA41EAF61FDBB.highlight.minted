@@ -1,0 +1,17 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{insertStmt}\PYG{p}{.}\PYG{n+na}{setString}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{TEMP}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{n}{insertStmt}\PYG{p}{.}\PYG{n+na}{executeUpdate}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n}{generatedId}\PYG{p}{;}
+\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ResultSet}\PYG{+w}{ }\PYG{n}{keys}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{insertStmt}\PYG{p}{.}\PYG{n+na}{getGeneratedKeys}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{keys}\PYG{p}{.}\PYG{n+na}{next}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{generatedId}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{keys}\PYG{p}{.}\PYG{n+na}{getLong}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\PYG{n}{String}\PYG{+w}{ }\PYG{n}{ausweisnummer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{String}\PYG{p}{.}\PYG{n+na}{format}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{M\PYGZhy{}\PYGZpc{}06d}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{generatedId}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{PreparedStatement}\PYG{+w}{ }\PYG{n}{updateStmt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{connection}\PYG{p}{.}\PYG{n+na}{prepareStatement}\PYG{p}{(}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{UPDATE mitglied SET ausweisnummer = ? WHERE id = ?}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{updateStmt}\PYG{p}{.}\PYG{n+na}{setString}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ausweisnummer}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{updateStmt}\PYG{p}{.}\PYG{n+na}{setLong}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{generatedId}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{updateStmt}\PYG{p}{.}\PYG{n+na}{executeUpdate}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\PYG{n}{connection}\PYG{p}{.}\PYG{n+na}{commit}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Mein Bereich</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 Bibliothek</h1>
+  <a href="logout" class="logout-btn">🚪 Logout</a>
+</div>
+
+<!-- SPERRHINWEIS -->
+<div class="sperr-banner" id="sperr-banner">
+  <strong>⚠️ Ihr Konto ist gesperrt</strong>
+  <p id="sperr-grund-text"></p>
+</div>
+
+<!-- MENU -->
+<div class="container" id="menu-view">
+  <div class="menu">
+    <h2>Mein Bereich</h2>
+    <a href="#" class="menu-btn" onclick="zeigeAusleihen(); return false;">📖 Meine Ausleihen</a>
+<<<<<<< Updated upstream
+    <a href="historique" class="menu-btn">📋 Meine Historie</a>
+    <a href="meine-ausleihen" class="menu-btn">📖 Meine Ausleihen</a>
+=======
+>>>>>>> Stashed changes
+    <a href="#" class="menu-btn" onclick="zeigeQuittungen(); return false;">🧾 Meine Quittungen</a>
+  </div>
+</div>
+
+<!-- AUSLEIHEN -->
+<div class="ausleihen-view" id="ausleihen-view">
+  <a class="back-btn" onclick="zeigeMenu()">← Zurück</a>
+  <h2 style="margin-top:1rem">Meine aktiven Ausleihen</h2>
+  <div style="margin-bottom:1rem">
+    <input type="text" id="ausweis-ausleihen" placeholder="Ausweisnummer z.B. M-00001"
+      style="padding:0.6rem;border:1px solid #ddd;border-radius:6px;width:300px;margin-right:0.5rem">
+    <button onclick="ladeAusleihen()"
+      style="padding:0.6rem 1.2rem;background:#2c3e50;color:white;border:none;border-radius:6px;cursor:pointer">
+      Laden
+    </button>
+  </div>
+  <div id="ausleihen-liste"></div>
+</div>
+
+<!-- QUITTUNGEN -->
+<div class="quittungen-view" id="quittungen-view">
+  <a class="back-btn" onclick="zeigeMenu()">← Zurück</a>
+  <div style="margin-bottom:1rem;margin-top:1rem">
+    <input type="text" id="ausweis" placeholder="Ausweisnummer z.B. M-00001"
+      style="padding:0.6rem;border:1px solid #ddd;border-radius:6px;width:300px;margin-right:0.5rem">
+    <button onclick="ladeQuittungen()"
+      style="padding:0.6rem 1.2rem;background:#2c3e50;color:white;border:none;border-radius:6px;cursor:pointer">
+      Laden
+    </button>
+  </div>
+  <div id="quittungen-liste">
+    <p class="leer">Ausweisnummer eingeben und laden.</p>
+  </div>
+</div>
+
+<script src="dashboard-mitglied.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+mysql swe2-2026-team-h_db -e "
+DELETE r FROM rueckgabe r 
+JOIN ausleihe a ON r.ausleihe_id = a.id 
+JOIN mitglied m ON a.mitglied_id = m.id 
+WHERE m.ausweisnummer LIKE 'M-%';
+
+DELETE FROM ausleihe WHERE mitglied_id IN (SELECT id FROM mitglied WHERE ausweisnummer LIKE 'M-%');
+
+UPDATE mitglied SET gesperrt = FALSE, sperr_grund = NULL WHERE ausweisnummer LIKE 'M-%';
+"

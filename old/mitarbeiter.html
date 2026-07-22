@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Mitarbeiter – Bibliothek</title>
+  <link rel="stylesheet" href="mitarbeiter.css">
+</head>
+<body>
+
+<header>
+  <h1>📚 Bibliothek — Mitarbeiter</h1>
+  <a href="logout">Abmelden</a>
+</header>
+
+<nav>
+  <button class="active" onclick="show('ausleihe', this)">Ausleihe</button>
+  <button onclick="show('rueckgabe', this)">Rückgabe</button>
+  <button onclick="show('mitglied', this)">Mitglied</button>
+</nav>
+
+<main>
+
+  <!-- AUSLEIHE -->
+  <div id="ausleihe" class="section active">
+    <h2>Buch ausleihen</h2>
+    <div class="card">
+      <label>Ausweisnummer</label>
+      <input type="text" id="aus-ausweis" placeholder="z.B. M-00001">
+      <label>Barcode scannen</label>
+      <div class="scan-row">
+        <input type="text" id="aus-barcode" placeholder="BC100000"
+               onkeydown="if(event.key==='Enter') barcodeHinzufuegen()">
+        <button class="btn btn-primary" onclick="barcodeHinzufuegen()">+ Hinzufügen</button>
+      </div>
+      <div id="scan-liste" style="margin-top:1rem;display:none">
+        <h2>Gescannte Bücher</h2>
+        <table>
+          <thead><tr><th>Barcode</th><th>Aktion</th></tr></thead>
+          <tbody id="scan-tabelle"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-primary" onclick="ausleihen()">Alle ausleihen</button>
+      <div class="result-box" id="aus-result"></div>
+    </div>
+
+    <h2>Aktuelle Ausleihen</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Mitglied</th><th>Titel</th><th>Barcode</th><th>Fällig am</th><th>Status</th></tr>
+        </thead>
+        <tbody id="ausleihen-tabelle">
+          <tr><td colspan="5" style="color:#a0aec0">Wird geladen…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RÜCKGABE -->
+  <div id="rueckgabe" class="section">
+    <h2>Buch zurückgeben</h2>
+    <div class="card">
+      <label>Barcode scannen</label>
+      <input type="text" id="rueck-barcode" placeholder="BC100000">
+      <label>Zustand</label>
+      <select id="rueck-zustand">
+        <option value="GUT">Gut</option>
+        <option value="BESCHAEDIGT">Beschädigt</option>
+        <option value="VERLOREN">Verloren</option>
+      </select>
+      <button class="btn btn-primary" onclick="rueckgabe()">Rückgabe buchen</button>
+      <div class="result-box" id="rueck-result"></div>
+    </div>
+  </div>
+
+  <!-- MITGLIED -->
+  <div id="mitglied" class="section">
+    <h2>Mitglied suchen</h2>
+    <div class="card">
+      <label>Ausweisnummer oder Name</label>
+      <input type="text" id="m-suche" placeholder="M-00001 oder Müller">
+      <button class="btn btn-primary" onclick="mitgliedSuchen()">Suchen</button>
+    </div>
+
+    <div class="card" id="m-detail" style="display:none">
+      <table>
+        <thead><tr><th>Feld</th><th>Wert</th></tr></thead>
+        <tbody id="m-detail-body"></tbody>
+      </table>
+      <h2 style="margin-top:1.5rem">Ausleih-Historie</h2>
+      <table>
+        <thead>
+          <tr><th>Titel</th><th>Ausgeliehen</th><th>Zurückgegeben</th><th>Gebühr</th></tr>
+        </thead>
+        <tbody id="m-historie"></tbody>
+      </table>
+      <div style="margin-top:1rem">
+  <label>Sperrgrund</label>
+  <select id="sperr-grund">
+    <option value="Mahngebühren nicht bezahlt">Mahngebühren nicht bezahlt</option>
+    <option value="Buch verloren">Buch verloren</option>
+    <option value="Buch beschädigt">Buch beschädigt</option>
+    <option value="Sonstiges">Sonstiges</option>
+  </select>
+  <input type="text" id="sperr-grund-custom" placeholder="Eigener Grund..."
+    style="display:none;margin-top:0.5rem;width:100%;padding:0.55rem 0.8rem;border:1px solid #e2e8f0;border-radius:6px;">
+</div>
+<button class="btn btn-danger" id="btn-sperren" onclick="sperren()">Mitglied sperren</button>
+<button class="btn btn-success" id="btn-freigeben" onclick="freigeben()" style="display:none">Mitglied freigeben</button>
+    </div>
+  </div>
+
+</main>
+
+<script src="mitarbeiter.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{laeuft}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{RedisClient}\PYG{+w}{ }\PYG{n}{redisClient}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{JedisAdapter}\PYG{p}{.}\PYG{n+na}{getClient}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{antwort}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{redisClient}\PYG{p}{.}\PYG{n+na}{brpop}\PYG{p}{(}\PYG{n}{WARTE\PYGZus{}SEKUNDEN}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{QUEUE\PYGZus{}KEY}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{antwort}\PYG{+w}{ }\PYG{o}{=}\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{k}{continue}\PYG{p}{;}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{auftragAlsText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{antwort}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{              }\PYG{n}{schreibeQuittung}\PYG{p}{(}\PYG{n}{auftragAlsText}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{fehler}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{err}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Fehler beim Verarbeiten: }\PYG{l+s}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{fehler}\PYG{p}{.}\PYG{n+na}{getMessage}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{DruckWorker beendet.}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

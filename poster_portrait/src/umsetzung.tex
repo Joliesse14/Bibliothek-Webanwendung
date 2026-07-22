@@ -1,0 +1,36 @@
+\section{Umsetzung \& Kurze Beschreibung}
+\subsection{Ausleihe}
+Die Ausleihe ist das Herzstück unserer Bibliotheksanwendung. Der Mitarbeiter gibt die Ausweisnummer des Mitglieds ein und scannt anschließend beliebig viele Barcodes der auszuleihenden Bücher. Erst ein Klick auf „Alle ausleihen“ speichert alle Bücher gemeinsam in der Datenbank.
+Statt die Bestätigung sofort auszudrucken, wird ein Druckauftrag mit allen Angaben – Mitarbeitername, Ausweisnummer, ausgeliehene Bücher sowie Ausleih- und Rückgabedatum – als eigenständiges Objekt gekapselt und per \texttt{LPUSH} in eine Redis-Warteschlange eingereiht.
+\begin{minted}{java}
+  while (laeuft) {
+    try {
+      RedisClient redisClient = JedisAdapter.getClient();
+      List<String> antwort = redisClient.brpop(WARTE_SEKUNDEN, QUEUE_KEY);
+      if (antwort == null) {
+                    continue;
+                }
+                String auftragAlsText = antwort.get(1);
+                schreibeQuittung(auftragAlsText);
+
+            } catch (Exception fehler) {
+                System.err.println("Fehler beim Verarbeiten: " + fehler.getMessage());
+            }
+        }
+        System.out.println("DruckWorker beendet.");
+\end{minted}
+Ein separater \texttt{DruckWorker}-Thread wartet kontinuierlich mit einem blockierenden \texttt{BRPOP} auf neue Aufträge in der Warteschlange, statt die Queue in einer Schleife ständig abzufragen. Sobald ein Auftrag eintrifft, entnimmt der Worker ihn und schreibt die entsprechende Quittung als Textdatei. So bleibt die Ausleihe für den Mitarbeiter sofort abgeschlossen, während das eigentliche „Drucken“ nebenläufig im Hintergrund erfolgt.
+\subsection{Rückgabe}
+Bei der Rückgabe gibt der Mitarbeiter die Ausweisnummer des Mitglieds sowie beliebig viele Barcodes auf einmal ein, sodass mehrere Bücher in einem Vorgang zurückgenommen werden können. Für jedes Buch prüft die Anwendung automatisch, ob die Rückgabe überfällig ist, und berechnet gegebenenfalls eine Mahngebühr von 10 Cent pro Tag. Wird ein Buch als beschädigt oder verloren gemeldet, sperrt das System das betroffene Mitglied automatisch. Analog zur Ausleihe wird auch hier kein Beleg direkt geschrieben, sondern ein Druckauftrag in dieselbe Redis-Warteschlange eingereiht und vom \texttt{DruckWorker} verarbeitet.
+\begin{minted}{java}[h]
+long tageUeberfaellig = ChronoUnit.DAYS.between(faellig, heute);
+double gebuehr = tageUeberfaellig > 0 ? tageUeberfaellig * 0.10 : 0.0;
+if (!zustand.equals("GUT")) {
+    PreparedStatement psSperr = con.prepareStatement(
+        "UPDATE mitglied SET gesperrt=TRUE, sperr_grund=? WHERE id=?");
+    psSperr.setString(1, "Buch " + zustand.toLowerCase() + " zurueckgegeben");
+    psSperr.setLong(2, mitglied_id);
+    psSperr.executeUpdate();
+}
+\end{minted}
+Beide Prüfungen laufen automatisch im Hintergrund ab: Der Mitarbeiter muss weder die Gebühr selbst berechnen noch manuell entscheiden, ob ein Mitglied gesperrt werden soll. Die Sperrung erfolgt dabei unabhängig von der Gebühr allein aufgrund des gemeldeten Buchzustands.
